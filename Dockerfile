@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:5-apache
 
 MAINTAINER developers@synopsis.cz
 
@@ -42,7 +42,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config 
 RUN pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
 
 # phpredis
-ENV PHPREDIS_VERSION php7
+ENV PHPREDIS_VERSION 2.2.7
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
     && tar xfz /tmp/redis.tar.gz \
     && rm -r /tmp/redis.tar.gz \
