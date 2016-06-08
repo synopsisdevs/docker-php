@@ -41,6 +41,9 @@ RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev && apt-get clea
 RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin
 RUN pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
 
+# xdebug
+RUN pecl install -o -f xdebug-2.4 && docker-php-ext-enable xdebug && rm -rf /tmp/pear
+
 # phpredis
 ENV PHPREDIS_VERSION php7
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
@@ -61,3 +64,6 @@ RUN apt-get update && apt-get install -y cron && apt-get clean
 
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
+
+# xdebugu configuration
+COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
