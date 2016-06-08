@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y libpq-dev && apt-get clean
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql && docker-php-ext-install -j$(nproc) pdo_pgsql pgsql
 
 # mysql
-RUN docker-php-ext-install -j$(nproc) pdo_mysql mysql mysqli 
+RUN docker-php-ext-install -j$(nproc) pdo_mysql mysqli 
 
 # curl
 RUN apt-get update && apt-get install -y libcurl4-openssl-dev php5-curl && apt-get clean
