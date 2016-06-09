@@ -43,7 +43,7 @@ RUN docker-php-ext-install -j$(nproc) mcrypt
 RUN docker-php-ext-install -j$(nproc) zip
 
 # imagick
-RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev && apt-get clean
+RUN apt-get update && apt-get install -y libmagickwand-dev && apt-get clean
 #RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin
 RUN pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
 
