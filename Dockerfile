@@ -2,8 +2,6 @@ FROM php:7-cli
 
 MAINTAINER developers@synopsis.cz
 
-RUN a2enmod rewrite 
-
 # instalace sudo
 RUN apt-get update && apt-get install sudo && apt-get clean
 
