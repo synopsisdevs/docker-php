@@ -66,5 +66,3 @@ RUN touch /var/log/cron.log
 
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
-
-CMD ["cron", "-f"]
