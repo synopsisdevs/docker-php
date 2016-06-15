@@ -62,6 +62,9 @@ RUN docker-php-ext-install -j$(nproc) soap
 
 # cron
 RUN apt-get update && apt-get install -y cron && apt-get clean
+RUN touch /var/log/cron.log
 
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
+
+CMD ["cron", "-f"]
