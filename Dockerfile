@@ -63,7 +63,12 @@ RUN apt-get update && apt-get install -y libxml2-dev && apt-get clean
 RUN docker-php-ext-install -j$(nproc) soap
 
 # cron
-RUN apt-get update && apt-get install -y cron && apt-get clean && cron
+RUN apt-get update && apt-get install -y cron && apt-get clean
 
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
