@@ -63,6 +63,12 @@ RUN docker-php-ext-install -j$(nproc) soap
 # cron
 RUN apt-get update -qq && apt-get install -y cron && apt-get clean
 
+# calendar
+RUN docker-php-ext-install calendar
+
+# wkhtmltopdf
+RUN apt-get update -qq && apt-get install -y wkhtmltopdf && apt-get clean
+
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
