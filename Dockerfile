@@ -70,6 +70,8 @@ RUN docker-php-ext-install calendar
 
 # wkhtmltopdf
 RUN apt-get update -qq && apt-get install -y wkhtmltopdf && apt-get clean
+COPY bin/wkhtmltopdf /usr/bin/wkhtmltopdf
+COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
