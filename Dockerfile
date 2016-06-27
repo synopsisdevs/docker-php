@@ -27,7 +27,7 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$P
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure gd --enable-gd-native-ttf --with-png-dir=/usr/include --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include/freetype2 \
-    && docker-php-ext-configure bcmath
+    && docker-php-ext-configure bcmath \
     && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar redis
 
 # wkhtmltopdf
