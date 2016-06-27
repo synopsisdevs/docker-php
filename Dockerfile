@@ -42,6 +42,9 @@ COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
+# xdebugu configuration
+COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
 
