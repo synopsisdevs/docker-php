@@ -2,6 +2,8 @@ FROM php:7-apache
 
 MAINTAINER developers@synopsis.cz
 
+RUN a2enmod rewrite
+
 ENV TZ Europe/Prague
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev"
