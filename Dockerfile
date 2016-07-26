@@ -4,7 +4,7 @@ MAINTAINER developers@synopsis.cz
 
 ENV TZ Europe/Prague
 
-ENV DEPENDENCY_PACKAGES="libapache2-mod-php5 php5-gd php5-mysql php5-curl php5-memcached php5-mcrypt"
+ENV DEPENDENCY_PACKAGES="libapache2-mod-php5 php5-gd php5-mysql php5-curl php5-memcached php5-mcrypt php5-xdebug"
 ENV BUILD_PACKAGES="apache2 php5 openjdk-7-jre"
 
 RUN apt-get clean \
