@@ -20,7 +20,7 @@ RUN apt-get clean \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
-# xdebug & redis
+# redis
 RUN pecl install -o -f redis-$REDIS_VERSION \
     && docker-php-ext-enable redis \
     && rm -rf /tmp/pear
