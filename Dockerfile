@@ -6,6 +6,8 @@ RUN a2enmod rewrite
 
 ENV TZ Europe/Prague
 
+ENV REDIS_VERSION 2.2
+
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev"
 ENV BUILD_PACKAGES="sudo php5-curl cron wkhtmltopdf"
 
@@ -22,17 +24,15 @@ RUN apt-get clean \
 RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin \
     && pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
 
-# phpredis
-ENV PHPREDIS_VERSION 2.2.7
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
-    && tar xfz /tmp/redis.tar.gz \
-    && rm -r /tmp/redis.tar.gz \
-    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis
+# xdebug & redis
+RUN pecl install -o -f redis-$REDIS_VERSION \
+    && docker-php-ext-enable redis \
+    && rm -rf /tmp/pear
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure gd --enable-gd-native-ttf --with-png-dir=/usr/include --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include/freetype2 \
     && docker-php-ext-configure bcmath \
-    && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar redis
+    && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar
 
 # wkhtmltopdf
 COPY bin/wkhtmltopdf /usr/bin/wkhtmltopdf
