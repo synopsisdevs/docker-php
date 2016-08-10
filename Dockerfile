@@ -24,7 +24,7 @@ RUN apt-get clean \
 RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin \
     && pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
 
-# xdebug & redis
+# redis
 RUN pecl install -o -f redis-$REDIS_VERSION \
     && docker-php-ext-enable redis \
     && rm -rf /tmp/pear
