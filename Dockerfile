@@ -1,3 +1,31 @@
-FROM synopsis/php:fileserver
+FROM php:7-apache
 
 MAINTAINER developers@synopsis.cz
+
+RUN a2enmod rewrite
+RUN a2enmod ssl
+
+ENV TZ Europe/Prague 
+
+ENV DEPENDENCY_PACKAGES="libmcrypt-dev"
+ENV BUILD_PACKAGES="ssl-cert"
+
+RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
+
+RUN apt-get clean \
+    && apt-get update \
+    && apt-get install -y $DEPENDENCY_PACKAGES $BUILD_PACKAGES \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# php.ini
+COPY conf/php.ini /usr/local/etc/php/
+
+ADD conf/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
+RUN a2ensite 000-default
+RUN a2ensite default-ssl
+
+EXPOSE 80 443
