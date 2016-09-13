@@ -41,6 +41,14 @@ COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
+ADD conf/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
+RUN a2ensite 000-default
+RUN a2ensite default-ssl
+
+EXPOSE 80 443
+
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
 
