@@ -19,6 +19,9 @@ RUN apt-get clean \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN docker-php-ext-configure bcmath \
+    && docker-php-ext-install -j$(nproc) mbstring json bcmath mcrypt
+
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
