@@ -27,3 +27,5 @@ ADD conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
 RUN a2ensite 000-default
 RUN a2ensite default-ssl
+
+EXPOSE 80 443
