@@ -10,7 +10,7 @@ RUN a2ensite default-ssl
 ENV TZ Europe/Prague 
 
 ENV DEPENDENCY_PACKAGES="libmcrypt-dev"
-ENV BUILD_PACKAGES="supervisor rsyslog ssl-cert"
+ENV BUILD_PACKAGES="supervisor ssl-cert"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
 
