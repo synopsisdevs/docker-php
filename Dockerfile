@@ -7,7 +7,7 @@ ENV TZ Europe/Prague
 ENV REDIS_VERSION 3.0
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev"
-ENV BUILD_PACKAGES="sudo php5-curl cron wkhtmltopdf"
+ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor rsyslog"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
 
@@ -39,7 +39,10 @@ COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
-ADD run.sh /run.sh
-RUN chmod +x /run.sh
+# supervisor.conf
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
 
-CMD ["/run.sh"]
+EXPOSE 80 9001
+
+CMD ["/usr/bin/supervisord"]
