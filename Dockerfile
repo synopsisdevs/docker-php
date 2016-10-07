@@ -3,13 +3,16 @@ FROM php:7-apache
 MAINTAINER developers@synopsis.cz
 
 RUN a2enmod rewrite
+RUN a2enmod ssl
+RUN a2ensite 000-default
+RUN a2ensite default-ssl
 
 ENV TZ Europe/Prague
 
 ENV REDIS_VERSION 3.0
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev"
-ENV BUILD_PACKAGES="sudo php5-curl cron wkhtmltopdf"
+ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor rsyslog ssl-cert"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
 
@@ -41,15 +44,10 @@ COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
-ADD conf/000-default.conf /etc/apache2/sites-available/000-default.conf
-ADD conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+# supervisor.conf
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
 
-RUN a2ensite 000-default
-RUN a2ensite default-ssl
+EXPOSE 80 443 9001
 
-EXPOSE 80 443
-
-ADD run.sh /run.sh
-RUN chmod +x /run.sh
-
-CMD ["/run.sh"]
+CMD ["/usr/bin/supervisord"]
