@@ -12,7 +12,7 @@ ENV TZ Europe/Prague
 ENV REDIS_VERSION 2.2.8
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev"
-ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor rsyslog ssl-cert"
+ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor ssl-cert"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
 
