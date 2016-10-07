@@ -45,6 +45,9 @@ COPY conf/php.ini /usr/local/etc/php/
 # xdebugu configuration
 COPY conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
+# cron
+COPY cron /etc/pam.d/cron
+
 # supervisor.conf
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
