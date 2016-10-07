@@ -44,6 +44,9 @@ COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
+# cron
+COPY cron /etc/pam.d/cron
+
 # supervisor.conf
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
