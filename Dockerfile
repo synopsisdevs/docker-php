@@ -4,11 +4,13 @@ MAINTAINER developers@synopsis.cz
 
 RUN a2enmod rewrite
 RUN a2enmod ssl
+RUN a2ensite 000-default
+RUN a2ensite default-ssl
 
 ENV TZ Europe/Prague 
 
 ENV DEPENDENCY_PACKAGES="libmcrypt-dev"
-ENV BUILD_PACKAGES="ssl-cert"
+ENV BUILD_PACKAGES="supervisor rsyslog ssl-cert"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
 
@@ -22,10 +24,10 @@ RUN apt-get clean \
 # php.ini
 COPY conf/php.ini /usr/local/etc/php/
 
-ADD conf/000-default.conf /etc/apache2/sites-available/000-default.conf
-ADD conf/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+# supervisor.conf
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
 
-RUN a2ensite 000-default
-RUN a2ensite default-ssl
+EXPOSE 80 443 9001
 
-EXPOSE 80 443
+CMD ["/usr/bin/supervisord"]
