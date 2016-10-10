@@ -54,4 +54,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
 
 EXPOSE 80 9001
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
