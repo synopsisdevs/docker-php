@@ -19,6 +19,6 @@ RUN a2enmod rewrite
 COPY conf/site-default /etc/apache2/sites-enabled/000-default
 COPY conf/php.ini /etc/php5/apache2/php.ini
 
-EXPOSE 80
+EXPOSE 80 
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
