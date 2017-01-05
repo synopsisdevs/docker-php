@@ -10,7 +10,7 @@ ENV XDEBUG_VERSION 2.4
 ENV REDIS_VERSION 2.2.8
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
-ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor"
+ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor locales"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
 
@@ -52,6 +52,11 @@ COPY cron /etc/pam.d/cron
 # supervisor.conf
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
+
+# locales
+COPY conf/locales.sh /etc/locales.sh
+RUN chmod +x /etc/locales.sh
+RUN /etc/locales.sh
 
 EXPOSE 80 9001 
 
