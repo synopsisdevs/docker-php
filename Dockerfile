@@ -53,6 +53,6 @@ COPY cron /etc/pam.d/cron
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
 
-EXPOSE 80 9001
+EXPOSE 80 9001 
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
