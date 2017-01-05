@@ -1,4 +1,4 @@
-FROM php:7.0.11-cli
+FROM php:7.0-cli
 
 MAINTAINER developers@synopsis.cz
 
