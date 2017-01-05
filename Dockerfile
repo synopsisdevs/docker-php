@@ -53,8 +53,9 @@ RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/000-supervisord.conf
 
 # locales
-COPY conf/locale.gen /etc/locale.gen
-RUN locale-gen
+COPY conf/locales.sh /etc/locales.sh
+RUN chmod +x /etc/locales.sh
+RUN /etc/locales.sh
 
 EXPOSE 80 443 9001
 
