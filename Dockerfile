@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:7.1-apache
 
 MAINTAINER developers@synopsis.cz
 
@@ -6,8 +6,9 @@ RUN a2enmod rewrite
 
 ENV TZ Europe/Prague
 
-ENV XDEBUG_VERSION 2.4
-ENV REDIS_VERSION 3.0
+ENV XDEBUG_VERSION 2.5
+ENV REDIS_VERSION 3.1
+ENV IMAGICK_VERSION 3.4
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
 ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor locales"
@@ -21,13 +22,10 @@ RUN apt-get clean \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
-# imagick
+# xdebug & redis & imagick
 RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin \
-    && pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
-
-# xdebug & redis
-RUN pecl install -o -f xdebug-$XDEBUG_VERSION redis-$REDIS_VERSION \
-    && docker-php-ext-enable xdebug redis \
+    && pecl install -o -f xdebug-$XDEBUG_VERSION redis-$REDIS_VERSION imagick-$IMAGICK_VERSION \
+    && docker-php-ext-enable xdebug redis imagick \
     && rm -rf /tmp/pear
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
