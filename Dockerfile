@@ -1,11 +1,6 @@
-FROM php:7.0-apache
+FROM php:7.1.5-fpm
 
 MAINTAINER developers@synopsis.cz
-
-RUN a2enmod rewrite
-RUN a2enmod ssl
-RUN a2ensite 000-default
-RUN a2ensite default-ssl
 
 ENV TZ Europe/Prague
 
@@ -57,6 +52,6 @@ COPY conf/locales.sh /etc/locales.sh
 RUN chmod +x /etc/locales.sh
 RUN /etc/locales.sh
 
-EXPOSE 80 443 9001
+EXPOSE 9000
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
