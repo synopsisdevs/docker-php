@@ -9,7 +9,7 @@ ENV TZ Europe/Prague
 ENV XDEBUG_VERSION 2.4
 ENV REDIS_VERSION 3.0
 
-ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
+ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libssh2-1-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
 ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor locales"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
@@ -26,7 +26,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config 
     && pecl install -o -f imagick-3.4 && docker-php-ext-enable imagick && rm -rf /tmp/pear
 
 # xdebug & redis
-RUN pecl install -o -f xdebug-$XDEBUG_VERSION redis-$REDIS_VERSION \
+RUN pecl install -o -f xdebug-$XDEBUG_VERSION redis-$REDIS_VERSION ssh2-1.0\
     && docker-php-ext-enable xdebug redis \
     && rm -rf /tmp/pear
 
