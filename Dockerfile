@@ -27,7 +27,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config 
 
 # xdebug & redis
 RUN pecl install -o -f xdebug-$XDEBUG_VERSION redis-$REDIS_VERSION ssh2-1.0\
-    && docker-php-ext-enable xdebug redis \
+    && docker-php-ext-enable xdebug redis ssh2\
     && rm -rf /tmp/pear
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
