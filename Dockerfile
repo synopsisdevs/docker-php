@@ -30,6 +30,11 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config 
     && docker-php-ext-enable redis imagick \
     && rm -rf /tmp/pear
 
+# SSH2
+# TODO PECL is buggy, we must compile it.
+RUN git clone https://github.com/php/pecl-networking-ssh2.git /usr/src/php/ext/ssh2 \
+	&& docker-php-ext-install ssh2
+
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure gd --enable-gd-native-ttf --with-png-dir=/usr/include --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include/freetype2 \
     && docker-php-ext-configure bcmath \
