@@ -10,7 +10,7 @@ ENV XDEBUG_VERSION 2.5
 ENV REDIS_VERSION 3.1
 ENV IMAGICK_VERSION 3.4
 
-ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
+ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev libssh2-1-dev"
 ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor locales"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
@@ -27,6 +27,11 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config 
     && pecl install -o -f xdebug-$XDEBUG_VERSION redis-$REDIS_VERSION imagick-$IMAGICK_VERSION \
     && docker-php-ext-enable xdebug redis imagick \
     && rm -rf /tmp/pear
+
+# SSH2
+# TODO PECL is buggy, we must compile it.
+RUN git clone https://github.com/php/pecl-networking-ssh2.git /usr/src/php/ext/ssh2 \
+	&& docker-php-ext-install ssh2
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure gd --enable-gd-native-ttf --with-png-dir=/usr/include --with-jpeg-dir=/usr/include --with-freetype-dir=/usr/include/freetype2 \
