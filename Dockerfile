@@ -43,6 +43,12 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar imap
 
+# propper Install zip
+RUN apt-get update && \
+     apt-get install -y \
+         zlib1g-dev \
+         && docker-php-ext-install zip
+
 # wkhtmltopdf
 COPY bin/wkhtmltopdf /usr/bin/wkhtmltopdf
 COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
