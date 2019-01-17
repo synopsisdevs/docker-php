@@ -9,7 +9,7 @@ RUN a2ensite default-ssl
 
 ENV TZ Europe/Prague
 
-ENV REDIS_VERSION 4.2.0
+ENV REDIS_VERSION 3.1.1
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev libssh2-1-dev"
 ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor ssl-cert locales git"
