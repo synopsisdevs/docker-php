@@ -2,14 +2,14 @@ FROM php:7.0-apache
 
 MAINTAINER developers@synopsis.cz
 
-RUN a2enmod rewrite 
+RUN a2enmod rewrite
 
 ENV TZ Europe/Prague
 
 ENV XDEBUG_VERSION 2.4
 ENV REDIS_VERSION 3.0
 
-ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libpng12-dev libjpeg-dev libfreetype6-dev libssh2-1-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
+ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libjpeg-dev libfreetype6-dev libssh2-1-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev"
 ENV BUILD_PACKAGES="sudo cron wkhtmltopdf git supervisor locales"
 
 RUN sed -i  "s/http:\/\/httpredir\.debian\.org\/debian/ftp:\/\/ftp\.debian\.org\/debian/g" /etc/apt/sources.list
@@ -41,6 +41,12 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
     && docker-php-ext-install -j$(nproc) pdo pdo_pgsql pgsql pdo_mysql mysqli curl gd mbstring json bcmath mcrypt zip fileinfo soap calendar imap
 
+# propper Install zip
+RUN apt-get update && \
+     apt-get install -y \
+         zlib1g-dev \
+         && docker-php-ext-install zip
+
 # wkhtmltopdf
 COPY bin/wkhtmltopdf /usr/bin/wkhtmltopdf
 COPY bin/wkhtmltoimage /usr/bin/wkhtmltoimage
@@ -63,6 +69,10 @@ COPY conf/locales.sh /etc/locales.sh
 RUN chmod +x /etc/locales.sh
 RUN /etc/locales.sh
 
+#wait for dependent containers
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
+RUN chmod +x /wait
+
 EXPOSE 80 9001
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf", "/wait"]
