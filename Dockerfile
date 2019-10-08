@@ -70,9 +70,9 @@ RUN chmod +x /etc/locales.sh
 RUN /etc/locales.sh
 
 #wait for dependent containers
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
+COPY conf/wait /wait
 RUN chmod +x /wait
 
 EXPOSE 80 9001
 
-CMD /wait && ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
