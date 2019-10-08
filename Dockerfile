@@ -75,4 +75,4 @@ RUN chmod +x /wait
 
 EXPOSE 80 9001
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf", "/wait"]
+CMD /wait && ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
