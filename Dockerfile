@@ -70,9 +70,12 @@ RUN chmod +x /etc/locales.sh
 RUN /etc/locales.sh
 
 #wait for dependent containers
-COPY conf/wait /wait
+COPY bin/wait /wait
 RUN chmod +x /wait
+
+COPY run.sh run.sh
+RUN chmod +x run.sh
 
 EXPOSE 80 9001
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["./run.sh"]
