@@ -73,7 +73,7 @@ RUN /etc/locales.sh
 COPY bin/wait /wait
 RUN chmod +x /wait
 
-COPY run.sh run.sh
+COPY bin/run.sh run.sh
 RUN chmod +x run.sh
 
 EXPOSE 80 9001
