@@ -8,6 +8,7 @@ ENV TZ Europe/Prague
 
 ENV XDEBUG_VERSION 2.4
 ENV REDIS_VERSION 3.1.1
+ENV OPENSSL_VERSION="OpenSSL_1_0_1-stable"
 
 ENV DEPENDENCY_PACKAGES="libpq-dev libcurl4-openssl-dev libjpeg-dev libfreetype6-dev libpng-dev libmcrypt-dev libxml2-dev libmagickwand-6.q16-dev libc-client-dev libkrb5-dev libssh2-1-dev"
 ENV BUILD_PACKAGES="sudo cron wkhtmltopdf supervisor ssl-cert locales git"
@@ -73,7 +74,17 @@ RUN /etc/locales.sh
 COPY bin/wait /wait
 RUN chmod +x /wait
 
-COPY bin/run.sh run.sh
+#openssl
+RUN apt-get remove -y openssl && \
+    cd /usr/src && \
+    git clone https://github.com/openssl/openssl.git && \
+    cd openssl && git checkout $OPENSSL_VERSION && \
+    ./config shared --prefix=/usr/local/openssl/ && \
+    make && \
+    make install && \
+    ln -s /usr/local/openssl/bin/openssl /usr/bin/openssl
+
+COPY ./run.sh run.sh
 RUN chmod +x run.sh
 
 EXPOSE 80 9001
