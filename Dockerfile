@@ -73,6 +73,8 @@ RUN /etc/locales.sh
 #wait for dependent containers
 COPY bin/wait /wait
 RUN chmod +x /wait
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
 
 #openssl
 RUN apt-get remove -y openssl && \
@@ -84,9 +86,6 @@ RUN apt-get remove -y openssl && \
     make install && \
     ln -s /usr/local/openssl/bin/openssl /usr/bin/openssl
 
-COPY ./run.sh run.sh
-RUN chmod +x run.sh
-
 EXPOSE 80 9001
 
-CMD ["./run.sh"]
+CMD /run.sh
